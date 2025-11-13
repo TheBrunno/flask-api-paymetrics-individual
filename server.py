@@ -2,7 +2,10 @@ from flask import Flask
 from random_forest import RandomForestModel
 
 model_roupas = RandomForestModel()
+model_alimentos = RandomForestModel()
+
 model_roupas.treinar_modelo("data/vendas_roupas.csv")
+model_alimentos.treinar_modelo("data/hipermercado.csv", "2014")
 
 app = Flask(__name__)
 
@@ -12,12 +15,24 @@ def health():
     return "Server OK!"
 
 @app.route("/obter_previsao/roupas/<ano>/<mes>")
-def previsao(ano, mes):
+def previsao_roupas(ano, mes):
     try:
         mes = int(mes)
         ano = int(ano)
 
         previsao = str(model_roupas.prever(mes, ano))
+    except Exception as e:
+        return e.args[0]
+    else:
+        return previsao
+    
+@app.route("/obter_previsao/alimentos/<ano>/<mes>")
+def previsao_alimentos(ano, mes):
+    try:
+        mes = int(mes)
+        ano = int(ano)
+
+        previsao = str(model_alimentos.prever(mes, ano))
     except Exception as e:
         return e.args[0]
     else:

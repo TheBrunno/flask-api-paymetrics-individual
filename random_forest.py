@@ -7,17 +7,17 @@ class RandomForestModel:
         self.__model = None
         self.__df = None
 
-    def treinar_modelo(self, csv_local):
+    def treinar_modelo(self, csv_local, after = "2000"):
         print("""\n\n\n
             Treinando o modelo Random Forest
         \n\n\n""")
 
         df_csv = pd.read_csv(csv_local, parse_dates=["Data"]).drop('Unnamed: 2', axis=1)
 
-        df_csv = df_csv[(df_csv['Data'] > '2000-04-01') & (df_csv['Data'] <= '2025-08-01')]
+        df_csv = df_csv[(df_csv['Data'] > f'{after}-04-01') & (df_csv['Data'] <= '2025-09-01')]
 
-        df_csv["vendas_lag1"] = df_csv["vendas_roupas"].shift(1)
-        df_csv["vendas_ano_passado"] = df_csv["vendas_roupas"].shift(12)
+        df_csv["vendas_lag1"] = df_csv["vendas"].shift(1)
+        df_csv["vendas_ano_passado"] = df_csv["vendas"].shift(12)
 
         df_csv["mes"] = df_csv["Data"].dt.month
         df_csv["ano"] = df_csv["Data"].dt.year
@@ -29,7 +29,7 @@ class RandomForestModel:
         X = self.__df[[
             "vendas_lag1", "vendas_ano_passado", "mes", "ano"
         ]]
-        y = self.__df["vendas_roupas"]
+        y = self.__df["vendas"]
 
         split = int(len(self.__df) * 0.90)
         X_train, X_test = X[:split], X[split:]
@@ -65,14 +65,14 @@ class RandomForestModel:
             
             mes_passado = self.__df[(self.__df["mes"] == mes_passado_num) & (self.__df["ano"] == ano_passado_num)]
 
-            key = "vendas_roupas"
+            key = "vendas"
             if mes_passado.empty:
                 mes_passado = ano_passado
                 key = "vendas_lag1"
 
             proxima = pd.DataFrame([{
                 "vendas_lag1": mes_passado[key],
-                "vendas_ano_passado": ano_passado["vendas_roupas"],
+                "vendas_ano_passado": ano_passado["vendas"],
                 
                 "mes": mes,
                 "ano": ano
