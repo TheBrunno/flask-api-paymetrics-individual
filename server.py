@@ -32,21 +32,21 @@ app = Flask(__name__)
 def health():
     return "Server OK!"
 
-@app.route("/obter/historico/roupas/anual")
-def historico_roupas_semestre_anual():
-    return csv_reader_roupas.obter_anual_json()
+@app.route("/obter/historico/roupas/anual/<anos>")
+def historico_roupas_semestre_anual(anos):
+    return csv_reader_roupas.obter_anual_json(anos)
 
-@app.route("/obter/historico/alimentos/anual")
-def historico_alimentos_semestre_anual():
-    return csv_reader_alimentos.obter_anual_json()
+@app.route("/obter/historico/alimentos/anual/<anos>")
+def historico_alimentos_semestre_anual(anos):
+    return csv_reader_alimentos.obter_anual_json(anos)
 
-@app.route("/obter/historico/farmacia/anual")
-def historico_farmacia_semestre_anual():
-    return csv_reader_farmacia.obter_anual_json()
+@app.route("/obter/historico/farmacia/anual/<anos>")
+def historico_farmacia_semestre_anual(anos):
+    return csv_reader_farmacia.obter_anual_json(anos)
 
-@app.route("/obter/historico/moveis/anual")
-def historico_moveis_semestre_anual():
-    return csv_reader_moveis.obter_anual_json()
+@app.route("/obter/historico/moveis/anual/<anos>")
+def historico_moveis_semestre_anual(anos):
+    return csv_reader_moveis.obter_anual_json(anos)
 
 
 @app.route("/obter/historico/roupas/semestre")
