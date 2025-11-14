@@ -2,22 +2,28 @@ from flask import Flask
 
 from random_forest import RandomForestModel
 from get_bucket import obterCSVsDoS3
+from csv_reader import CsvReader
 
-arquivos = [
+arquivos_do_bucket = [
     "vendas_roupas", "hipermercado", "farmacia_cosmeticos", "moveis_eletrodomesticos"
 ]
 
-obterCSVsDoS3(arquivos)
+# obterCSVsDoS3(arquivos_do_bucket)
 
 model_roupas = RandomForestModel()
 model_alimentos = RandomForestModel()
 model_farmacia = RandomForestModel()
 model_moveis = RandomForestModel()
 
-model_roupas.treinar_modelo(f"data/{arquivos[0]}_bucket.csv")
-model_alimentos.treinar_modelo(f"data/{arquivos[1]}_bucket.csv", "2014")
-model_farmacia.treinar_modelo(f"data/{arquivos[2]}_bucket.csv", "2018")
-model_moveis.treinar_modelo(f"data/{arquivos[3]}_bucket.csv", "2008")
+csv_reader_roupas = CsvReader(f"data/{arquivos_do_bucket[0]}_bucket.csv")
+csv_reader_alimentos = CsvReader(f"data/{arquivos_do_bucket[1]}_bucket.csv")
+csv_reader_farmacia = CsvReader(f"data/{arquivos_do_bucket[2]}_bucket.csv")
+csv_reader_moveis = CsvReader(f"data/{arquivos_do_bucket[3]}_bucket.csv")
+
+model_roupas.treinar_modelo(f"data/{arquivos_do_bucket[0]}_bucket.csv")
+model_alimentos.treinar_modelo(f"data/{arquivos_do_bucket[1]}_bucket.csv", "2014")
+model_farmacia.treinar_modelo(f"data/{arquivos_do_bucket[2]}_bucket.csv", "2018")
+model_moveis.treinar_modelo(f"data/{arquivos_do_bucket[3]}_bucket.csv", "2008")
 
 app = Flask(__name__)
 
@@ -26,7 +32,11 @@ app = Flask(__name__)
 def health():
     return "Server OK!"
 
-@app.route("/obter_previsao/roupas/<ano>/<mes>")
+@app.route("/obter/historico/roupas/semestre")
+def historico_roupas_semestre():
+    return csv_reader_roupas.obter_semestre_json()
+
+@app.route("/obter/previsao/roupas/<ano>/<mes>")
 def previsao_roupas(ano, mes):
     try:
         mes = int(mes)
@@ -38,7 +48,7 @@ def previsao_roupas(ano, mes):
     else:
         return previsao
     
-@app.route("/obter_previsao/alimentos/<ano>/<mes>")
+@app.route("/obter/previsao/alimentos/<ano>/<mes>")
 def previsao_alimentos(ano, mes):
     try:
         mes = int(mes)
@@ -50,7 +60,7 @@ def previsao_alimentos(ano, mes):
     else:
         return previsao
     
-@app.route("/obter_previsao/farmacia/<ano>/<mes>")
+@app.route("/obter/previsao/farmacia/<ano>/<mes>")
 def previsao_farmacia(ano, mes):
     try:
         mes = int(mes)
@@ -62,7 +72,7 @@ def previsao_farmacia(ano, mes):
     else:
         return previsao
     
-@app.route("/obter_previsao/moveis/<ano>/<mes>")
+@app.route("/obter/previsao/moveis/<ano>/<mes>")
 def previsao_moveis(ano, mes):
     try:
         mes = int(mes)
