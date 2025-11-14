@@ -16,6 +16,30 @@ class CsvReader:
 
         return self.__df_csv[(self.__df_csv['Data'] > f'{ano}-{inicio_semestre}-01') & (self.__df_csv['Data'] <= last_date)]
     
+    def obter_anual(self):
+        last_date = self.__df_csv.iloc[-1, 0]
+        mes = last_date.month
+        inicio_semestre = last_date.year-1
+
+        return self.__df_csv[(self.__df_csv['Data'] > f'{inicio_semestre}-{mes}-01') & (self.__df_csv['Data'] <= last_date)]
+
+    def obter_anual_json(self):
+        dados = self.obter_anual().to_dict()
+        
+        json = []
+
+        dados["Data"] = list(dados["Data"].values())
+        dados["vendas"] = list(dados["vendas"].values())
+        print(dados)
+
+        for i in range(12):
+            json.append({
+                "data":dados["Data"][i],
+                "vendas":dados["vendas"][i],
+            })
+
+        return json
+
     def obter_semestre_json(self):
         dados = self.obter_semestre().to_dict()
         
