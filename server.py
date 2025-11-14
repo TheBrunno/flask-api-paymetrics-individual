@@ -36,6 +36,18 @@ def health():
 def historico_roupas_semestre():
     return csv_reader_roupas.obter_semestre_json()
 
+@app.route("/obter/historico/alimentos/semestre")
+def historico_alimentos_semestre():
+    return csv_reader_alimentos.obter_semestre_json()
+
+@app.route("/obter/historico/farmacia/semestre")
+def historico_farmacia_semestre():
+    return csv_reader_farmacia.obter_semestre_json()
+
+@app.route("/obter/historico/moveis/semestre")
+def historico_moveis_semestre():
+    return csv_reader_moveis.obter_semestre_json()
+
 @app.route("/obter/previsao/roupas/<ano>/<mes>")
 def previsao_roupas(ano, mes):
     try:
