@@ -1,13 +1,21 @@
 from flask import Flask
+
 from random_forest import RandomForestModel
+from get_bucket import obterCSVsDoS3
+
+arquivos = [
+    "vendas_roupas", "hipermercado", "farmacia_cosmeticos"
+]
+
+obterCSVsDoS3(arquivos)
 
 model_roupas = RandomForestModel()
 model_alimentos = RandomForestModel()
 model_farmacia = RandomForestModel()
 
-model_roupas.treinar_modelo("data/vendas_roupas.csv")
-model_alimentos.treinar_modelo("data/hipermercado.csv", "2014")
-model_farmacia.treinar_modelo("data/farmacia_cosmeticos.csv", "2018")
+model_roupas.treinar_modelo(f"data/{arquivos[0]}_bucket.csv")
+model_alimentos.treinar_modelo(f"data/{arquivos[1]}_bucket.csv", "2014")
+model_farmacia.treinar_modelo(f"data/{arquivos[2]}_bucket.csv", "2018")
 
 app = Flask(__name__)
 
