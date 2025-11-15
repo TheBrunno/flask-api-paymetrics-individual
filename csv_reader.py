@@ -3,7 +3,7 @@ import pandas as pd
 class CsvReader:
     def __init__(self, csv_local):
         self.__csv_local = csv_local
-        self.__df_csv = pd.read_csv(csv_local, parse_dates=["Data"]).drop('Unnamed: 2', axis=1)
+        self.__df_csv = pd.read_csv(csv_local, parse_dates=["Data"])
 
     def obter_semestre(self):
         last_date = self.__df_csv.iloc[-1, 0]

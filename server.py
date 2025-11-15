@@ -5,10 +5,13 @@ from get_bucket import obterCSVsDoS3
 from csv_reader import CsvReader
 
 arquivos_do_bucket = [
-    "vendas_roupas", "hipermercado", "farmacia_cosmeticos", "moveis_eletrodomesticos"
+    "PMC12_VNVESTN12",
+    "PMC12_VRSUPN12",
+    "PMC12_VRFARMN12",
+    "PMC12_VRELETRN12"
 ]
 
-# obterCSVsDoS3(arquivos_do_bucket)
+obterCSVsDoS3(arquivos_do_bucket)
 
 model_roupas = RandomForestModel()
 model_alimentos = RandomForestModel()

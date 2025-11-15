@@ -5,9 +5,9 @@ import pandas as pd
 import boto3
 
 cod_series = [
-    "PMC12_VNSUPTN12",
-    "PMC12_VNFARMN12",
     "PMC12_VNVESTN12",
+    "PMC12_VRSUPN12",
+    "PMC12_VRFARMN12",
     "PMC12_VRELETRN12"
 ]
 
@@ -20,12 +20,12 @@ for cod_serie in cod_series:
 
     data = {
         "Data": [],
-        "valor": []
+        "vendas": []
     }
 
     for value in response["value"]:
         data["Data"].append(value["VALDATA"])
-        data["valor"].append(value["VALVALOR"])
+        data["vendas"].append(value["VALVALOR"])
 
     pd.DataFrame(data=data).to_csv(f"data_ipea/{cod_serie}.csv", index=False)
     send_bucket(f"data_ipea/{cod_serie}.csv", "raw-paymetrics", f"bruno/ipea/{cod_serie}.csv")

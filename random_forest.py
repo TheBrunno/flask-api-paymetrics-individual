@@ -12,7 +12,11 @@ class RandomForestModel:
             Treinando o modelo Random Forest
         \n\n\n""")
 
-        df_csv = pd.read_csv(csv_local, parse_dates=["Data"]).drop('Unnamed: 2', axis=1)
+        df_csv = pd.read_csv(csv_local)
+
+        df_csv["Data"] = pd.to_datetime(df_csv["Data"], utc=True)
+        df_csv["Data"] = df_csv["Data"].dt.tz_convert(None)
+
 
         df_csv = df_csv[(df_csv['Data'] > f'{after}-04-01') & (df_csv['Data'] <= '2025-09-01')]
 
