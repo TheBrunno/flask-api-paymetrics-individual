@@ -3,6 +3,8 @@ from flask import Flask
 from random_forest import RandomForestModel
 from get_bucket import obterCSVsDoS3
 from csv_reader import CsvReader
+from datetime import datetime
+from flask_cors import CORS
 
 arquivos_do_bucket = [
     "PMC12_VNVESTN12",
@@ -30,6 +32,8 @@ model_moveis.treinar_modelo(f"data/{arquivos_do_bucket[3]}_bucket.csv", "2008")
 
 app = Flask(__name__)
 
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/health")
 def health():
@@ -115,3 +119,76 @@ def previsao_moveis(ano, mes):
         return e.args[0]
     else:
         return previsao
+    
+@app.route("/obter/previsao/prox/roupas")
+def previsao_roupas_prox():
+    try:
+        month = datetime.now().month
+        year = datetime.now().year
+
+        if month == 12:
+            month = 1
+            year+=1
+        else:
+            month+=1
+
+        previsao = model_roupas.prever(month, year)
+        variacao = model_roupas.variacao(previsao)
+        return { "previsao": previsao, "variacao": variacao }
+    except Exception as e:
+        return e.args[0]
+    
+@app.route("/obter/previsao/prox/alimentos")
+def previsao_alimentos_prox():
+    try:
+        month = datetime.now().month
+        year = datetime.now().year
+
+        if month == 12:
+            month = 1
+            year+=1
+        else:
+            month+=1
+
+        previsao = model_alimentos.prever(month, year)
+        variacao = model_alimentos.variacao(previsao)
+        return { "previsao": previsao, "variacao": variacao }
+    except Exception as e:
+        return e.args[0]
+        
+@app.route("/obter/previsao/prox/farmacia")
+def previsao_farmacia_prox():
+    try:
+        month = datetime.now().month
+        year = datetime.now().year
+
+        if month == 12:
+            month = 1
+            year+=1
+        else:
+            month+=1
+
+        previsao = model_farmacia.prever(month, year)
+        variacao = model_farmacia.variacao(previsao)
+        return { "previsao": previsao, "variacao": variacao }
+    except Exception as e:
+        return e.args[0]
+    
+@app.route("/obter/previsao/prox/moveis")
+def previsao_moveis_prox():
+    try:
+        month = datetime.now().month
+        year = datetime.now().year
+
+        if month == 12:
+            month = 1
+            year+=1
+        else:
+            month+=1
+
+        previsao = model_moveis.prever(month, year)
+        variacao = model_moveis.variacao(previsao)
+        return { "previsao": previsao, "variacao": variacao }
+    except Exception as e:
+        return e.args[0]
+    

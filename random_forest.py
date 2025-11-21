@@ -17,8 +17,7 @@ class RandomForestModel:
         df_csv["Data"] = pd.to_datetime(df_csv["Data"], utc=True)
         df_csv["Data"] = df_csv["Data"].dt.tz_convert(None)
 
-
-        df_csv = df_csv[(df_csv['Data'] > f'{after}-04-01') & (df_csv['Data'] <= '2025-09-01')]
+        df_csv = df_csv[df_csv['Data'] > f'{after}-04-01']
 
         df_csv["vendas_lag1"] = df_csv["vendas"].shift(1)
         df_csv["vendas_ano_passado"] = df_csv["vendas"].shift(12)
@@ -55,6 +54,12 @@ class RandomForestModel:
 
         return self.__df, self.__model
 
+    def variacao(self, previsao):
+        lastRow = self.__df.iloc[-1]
+        valor_atual = lastRow["vendas"]
+
+        variacao_percentual = ((previsao - valor_atual) / valor_atual) * 100
+        return variacao_percentual
 
     def prever(self, mes, ano):
         try:
