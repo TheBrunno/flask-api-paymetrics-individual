@@ -6,6 +6,7 @@ class RandomForestModel:
     def __init__(self):
         self.__model = None
         self.__df = None
+        self.mae = None
 
     def treinar_modelo(self, csv_local, after = "2000"):
         print("""\n\n\n
@@ -47,9 +48,9 @@ class RandomForestModel:
         self.__model.fit(X_train, y_train)
         y_pred = self.__model.predict(X_test)
 
-        mae = mean_absolute_error(y_test, y_pred)
+        self.mae = mean_absolute_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
-        print(f"\n\nMAE: {mae:.2f}")
+        print(f"\n\nMAE: {self.mae:.2f}")
         print(f"R²: {r2:.3f}\n\n")
 
         return self.__df, self.__model
@@ -63,10 +64,10 @@ class RandomForestModel:
 
     def prever(self, mes, ano):
         try:
-            mes_passado_num = mes
+            mes_passado_num = mes-1
             ano_passado_num = ano
 
-            if mes-1 == 0:
+            if mes_passado_num == 0:
                 mes_passado_num = 12
                 ano_passado_num = ano-1
                 
