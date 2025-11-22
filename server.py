@@ -74,9 +74,9 @@ def previsao_roupas_ano(anos, meses):
 @app.route("/obter/previsao/ano/alimentos/<anos>/<meses>")
 def previsao_alimentos_ano(anos, meses):
     if anos == "-":
-        hist = csv_reader_roupas.obter_meses_json("-")
+        hist = csv_reader_alimentos.obter_meses_json("-")
     else:
-        hist = csv_reader_roupas.obter_meses_json((int(anos)*12)-int(meses))
+        hist = csv_reader_alimentos.obter_meses_json((int(anos)*12)-int(meses))
     prev = []
     last_hist_date = hist[len(hist)-1]["data"]
 
@@ -106,9 +106,9 @@ def previsao_alimentos_ano(anos, meses):
 @app.route("/obter/previsao/ano/farmacia/<anos>/<meses>")
 def previsao_farmacia_ano(anos, meses):
     if anos == "-":
-        hist = csv_reader_roupas.obter_meses_json("-")
+        hist = csv_reader_farmacia.obter_meses_json("-")
     else:
-        hist = csv_reader_roupas.obter_meses_json((int(anos)*12)-int(meses))
+        hist = csv_reader_farmacia.obter_meses_json((int(anos)*12)-int(meses))
     prev = []
     last_hist_date = hist[len(hist)-1]["data"]
 
@@ -138,9 +138,9 @@ def previsao_farmacia_ano(anos, meses):
 @app.route("/obter/previsao/ano/moveis/<anos>/<meses>")
 def previsao_moveis_ano(anos, meses):
     if anos == "-":
-        hist = csv_reader_roupas.obter_meses_json("-")
+        hist = csv_reader_moveis.obter_meses_json("-")
     else:
-        hist = csv_reader_roupas.obter_meses_json((int(anos)*12)-int(meses))
+        hist = csv_reader_moveis.obter_meses_json((int(anos)*12)-int(meses))
     prev = []
     last_hist_date = hist[len(hist)-1]["data"]
 
