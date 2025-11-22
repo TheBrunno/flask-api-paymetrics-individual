@@ -6,6 +6,8 @@ class CsvReader:
         self.__df_csv = pd.read_csv(csv_local, parse_dates=["Data"])
 
     def obter_meses(self, meses):
+        if meses == "-":
+            return self.__df_csv
         return self.__df_csv.tail(meses)
 
     def obter_meses_json(self, meses):
