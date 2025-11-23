@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import datetime
 
 class CsvReader:
     def __init__(self, csv_local):
@@ -68,6 +69,13 @@ class CsvReader:
 
     def getCsv(self):
         return self.__df_csv
+    
+    def obter_limites(self):
+        ultima_data = self.__df_csv.tail(1)["Data"].iloc[0]
+
+        year = ultima_data.year + 1
+        month = ultima_data.month
+        return { "month": month, "year": year }
 
 if __name__ == "__main__":
     csv = CsvReader("data/vendas_roupas_bucket.csv", ["2020-04-01", "2025-08-01"])

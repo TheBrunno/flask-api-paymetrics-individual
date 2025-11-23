@@ -323,3 +323,16 @@ def previsao_moveis_prox():
     except Exception as e:
         return e.args[0]
     
+
+@app.route("/obter/limites/data")
+def obter_limites():
+    roupas = csv_reader_roupas.obter_limites()
+    roupas["type"] = "roupas"
+    alimentos = csv_reader_alimentos.obter_limites()
+    alimentos["type"] = "alimentos"
+    farmacia = csv_reader_farmacia.obter_limites()
+    farmacia["type"] = "farmacia"
+    moveis = csv_reader_moveis.obter_limites()
+    moveis["type"] = "moveis"
+
+    return [roupas, alimentos, farmacia, moveis]
