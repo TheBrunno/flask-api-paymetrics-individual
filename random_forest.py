@@ -7,6 +7,7 @@ class RandomForestModel:
         self.__model = None
         self.__df = None
         self.mae = None
+        self.r2 = None
 
     def treinar_modelo(self, csv_local, after = "2000"):
         print("""\n\n\n
@@ -49,9 +50,9 @@ class RandomForestModel:
         y_pred = self.__model.predict(X_test)
 
         self.mae = mean_absolute_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
+        self.r2 = r2_score(y_test, y_pred)
         print(f"\n\nMAE: {self.mae:.2f}")
-        print(f"R²: {r2:.3f}\n\n")
+        print(f"R²: {self.r2:.3f}\n\n")
 
         return self.__df, self.__model
 
@@ -91,6 +92,9 @@ class RandomForestModel:
             return self.__model.predict(proxima)[0]
         except:
             raise ValueError("Insira um valor dentro do esperado!")
+    
+    def obter_metricas(self):
+        return {"mae": self.mae, "r2": self.r2}
 
 
 

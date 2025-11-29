@@ -35,10 +35,6 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-@app.route("/health")
-def health():
-    return "Server OK!"
-
 @app.route("/obter/previsao/ano/roupas/<anos>/<meses>")
 def previsao_roupas_ano(anos, meses):
     if anos == "-":
@@ -333,6 +329,19 @@ def obter_limites():
     farmacia = csv_reader_farmacia.obter_limites()
     farmacia["type"] = "farmacia"
     moveis = csv_reader_moveis.obter_limites()
+    moveis["type"] = "moveis"
+
+    return [roupas, alimentos, farmacia, moveis]
+
+@app.route("/obter/metricas")
+def obter_metricas():
+    roupas = model_roupas.obter_metricas()
+    roupas["type"] = "roupas"
+    alimentos = model_alimentos.obter_metricas()
+    alimentos["type"] = "alimentos"
+    farmacia = model_farmacia.obter_metricas()
+    farmacia["type"] = "farmacia"
+    moveis = model_moveis.obter_metricas()
     moveis["type"] = "moveis"
 
     return [roupas, alimentos, farmacia, moveis]
