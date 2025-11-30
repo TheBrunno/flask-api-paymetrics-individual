@@ -208,7 +208,7 @@ def previsao_roupas(ano, mes):
     except Exception as e:
         return e.args[0]
     else:
-        return previsao
+        return {"previsao": previsao, "mae": model_roupas.mae}
     
 @app.route("/obter/previsao/alimentos/<ano>/<mes>")
 def previsao_alimentos(ano, mes):
@@ -220,7 +220,8 @@ def previsao_alimentos(ano, mes):
     except Exception as e:
         return e.args[0]
     else:
-        return previsao
+        return {"previsao": previsao, "mae": model_alimentos.mae}
+
     
 @app.route("/obter/previsao/farmacia/<ano>/<mes>")
 def previsao_farmacia(ano, mes):
@@ -232,7 +233,8 @@ def previsao_farmacia(ano, mes):
     except Exception as e:
         return e.args[0]
     else:
-        return previsao
+        return {"previsao": previsao, "mae": model_farmacia.mae}
+
     
 @app.route("/obter/previsao/moveis/<ano>/<mes>")
 def previsao_moveis(ano, mes):
@@ -244,7 +246,8 @@ def previsao_moveis(ano, mes):
     except Exception as e:
         return e.args[0]
     else:
-        return previsao
+        return {"previsao": previsao, "mae": model_moveis.mae}
+
     
 @app.route("/obter/previsao/prox/roupas")
 def previsao_roupas_prox():
