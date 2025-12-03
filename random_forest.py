@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
+from datetime import datetime
 
 class RandomForestModel:
     def __init__(self):
@@ -58,7 +59,18 @@ class RandomForestModel:
 
     def variacao(self, previsao):
         lastRow = self.__df.iloc[-1]
-        valor_atual = lastRow["vendas"]
+
+        ultimoMes = datetime.now().month-1
+        ultimoAno = datetime.now().year
+
+        if ultimoMes == 0:
+            ultimoMes = 12
+            ultimoAno -= 1
+
+        if lastRow["Data"].month != ultimoMes:
+            valor_atual = self.prever(ultimoMes, ultimoAno)
+        else:
+            valor_atual = lastRow["vendas"]
 
         variacao_percentual = ((previsao - valor_atual) / valor_atual) * 100
         return variacao_percentual
