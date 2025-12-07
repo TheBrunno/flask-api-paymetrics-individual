@@ -3,6 +3,9 @@
 import requests
 import pandas as pd
 import boto3
+import os
+
+os.makedirs("data_ipea/", exist_ok=True)
 
 cod_series = [
     "PMC12_VNVESTN12",
